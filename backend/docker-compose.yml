@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  # ── FastAPI Backend ───────────────────────────────────────────────────────
+  api:
+    build: .
+    container_name: activeglow_api
+    ports:
+      - "8000:8000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-1.5-flash}
+      - MONGO_URI=mongodb://mongo:27017
+      - MONGO_DB_NAME=activeglow_db
+      - MONGO_COLLECTION=chat_sessions
+      - MAX_HISTORY_TURNS=20
+      - CORS_ORIGINS=*
+      - KNOWLEDGE_BASE_PATH=knowledge_base.txt
+    volumes:
+      - ./knowledge_base.txt:/backend/knowledge_base.txt:ro
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ── MongoDB ───────────────────────────────────────────────────────────────
+  mongo:
+    image: mongo:7.0
+    container_name: activeglow_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  mongo_data:

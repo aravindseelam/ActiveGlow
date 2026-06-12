@@ -5,16 +5,15 @@ class AppConstants {
   AppConstants._();
 
   // ── Environment Toggle ─────────────────────────────────────────────────────
-  // Set to 'true' when testing locally in VS Code. 
-  // Set to 'false' before pushing to GitHub or building the production app!
+  // Set to 'true' when testing locally in VS Code.
+  // Set to 'false' before pushing to GitHub for production!
   static const bool isDevelopment = false;
 
   // ── Backend URL ────────────────────────────────────────────────────────────
   // The app will automatically choose the correct URL based on the toggle above.
-  // Note: If using an Android Emulator instead of Chrome, change localhost to 10.0.2.2
   static const String apiBaseUrl = isDevelopment 
-      ? 'http://localhost:8000' 
-      : 'https://activeglow.onrender.com';
+      ? 'http://localhost:8000' // Local testing (change to http://10.0.2.2:8000 for Android Emulator)
+      : 'https://activeglow.onrender.com'; // Live production URL
 
   // ── Brand palette ──────────────────────────────────────────────────────────
   static const Color brandGreen      = Color(0xFF2ECC8A);   // Primary green

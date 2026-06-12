@@ -4,21 +4,14 @@ import 'package:flutter/material.dart';
 class AppConstants {
   AppConstants._();
 
-  // ── Environment Toggle ─────────────────────────────────────────────────────
-  // Set to 'true' when testing locally in VS Code.
-  // Set to 'false' before pushing to GitHub for production!
-  static const bool isDevelopment = false;
-
   // ── Backend URL ────────────────────────────────────────────────────────────
-  // The app will automatically choose the correct URL based on the toggle above.
-  static const String apiBaseUrl = isDevelopment 
-      ? 'http://localhost:8000' // Local testing (change to http://10.0.2.2:8000 for Android Emulator)
-      : 'https://activeglow.onrender.com'; // Live production URL
+  // Pointing directly to your live production backend
+  static const String apiBaseUrl = 'https://activeglow.onrender.com';
 
   // ── Brand palette ──────────────────────────────────────────────────────────
-  static const Color brandGreen      = Color(0xFF2ECC8A);   // Primary green
-  static const Color brandGreenDark  = Color(0xFF1A9E67);   // Darker green for gradients
-  static const Color brandGreenLight = Color(0xFFE8FBF3);   // Tint for user bubble
+  static const Color brandGreen      = Color(0xFF2ECC8A);
+  static const Color brandGreenDark  = Color(0xFF1A9E67);
+  static const Color brandGreenLight = Color(0xFFE8FBF3);
   static const Color accentTeal      = Color(0xFF00B4D8);
   static const Color scaffoldBg      = Color(0xFFF7F9FC);
   static const Color surfaceColor    = Color(0xFFFFFFFF);
@@ -33,7 +26,7 @@ class AppConstants {
   static const Color userBubbleBg   = Color(0xFF2ECC8A);
   static const Color userBubbleText = Color(0xFFFFFFFF);
 
-  // ── Spacing ────────────────────────────────────────────────────────────────
+  // ── Spacing & Typography ───────────────────────────────────────────────────
   static const double paddingXS  = 4.0;
   static const double paddingS   = 8.0;
   static const double paddingM   = 16.0;
@@ -41,9 +34,7 @@ class AppConstants {
   static const double paddingXL  = 32.0;
   static const double radiusM    = 16.0;
   static const double radiusL    = 24.0;
-
-  // ── Typography ─────────────────────────────────────────────────────────────
-  static const String fontFamily = 'Inter'; // via google_fonts
+  static const String fontFamily = 'Inter';
 
   // ── App strings ────────────────────────────────────────────────────────────
   static const String appName         = 'ActiveGlow';

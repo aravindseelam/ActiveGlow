@@ -4,9 +4,10 @@ main.py
 FastAPI application entry point for the ActiveGlow Skye chatbot backend.
 
 Endpoints:
-  POST /chat             → Send a message, receive a reply
-  DELETE /session/{id}   → Clear a session's history
-  GET  /health           → Health check (used by deployment platforms)
+  GET    /                 → Root welcome message (Fixes Render 404)
+  POST   /chat             → Send a message, receive a reply
+  DELETE /session/{id}     → Clear a session's history
+  GET    /health           → Health check (used by deployment platforms)
 """
 
 import logging
@@ -57,13 +58,16 @@ app = FastAPI(
         "Powered by Google Gemini and built with FastAPI."
     ),
     lifespan=lifespan,
+    # Explicitly defining documentation routes to prevent proxy fetch errors
+    openapi_url="/openapi.json",
+    docs_url="/docs"
 )
 
 # ─── CORS ─────────────────────────────────────────────────────────────────────
 # Allow Flutter Web, mobile apps, and local development to connect freely.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=settings.CORS_ORIGINS, 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -81,6 +85,19 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 
 # ─── Routes ───────────────────────────────────────────────────────────────────
+
+@app.get("/", summary="Root Welcome Message")
+async def root():
+    """
+    Root endpoint to prevent 404 errors when visiting the base URL.
+    Directs users and recruiters to the interactive documentation.
+    """
+    return {
+        "message": "ActiveGlow Skincare API is Live!", 
+        "status": "Healthy",
+        "documentation": "/docs"
+    }
+
 
 @app.post("/chat", response_model=ChatResponse, summary="Send a message to Skye")
 async def chat(request: ChatRequest):

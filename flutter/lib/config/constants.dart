@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 
 /// Central place for all app-wide constants.
-/// Change [apiBaseUrl] to your deployed backend URL before building for production.
 class AppConstants {
   AppConstants._();
 
+  // ── Environment Toggle ─────────────────────────────────────────────────────
+  // Set to 'true' when testing locally in VS Code. 
+  // Set to 'false' before pushing to GitHub or building the production app!
+  static const bool isDevelopment = false;
+
   // ── Backend URL ────────────────────────────────────────────────────────────
-  // Local dev:   http://10.0.2.2:8000   (Android emulator → host machine)
-  // Local dev:   http://localhost:8000  (iOS simulator / Web)
-  // Production:  https://your-app.railway.app
-  static const String apiBaseUrl = 'http://10.0.2.2:8000';
+  // The app will automatically choose the correct URL based on the toggle above.
+  // Note: If using an Android Emulator instead of Chrome, change localhost to 10.0.2.2
+  static const String apiBaseUrl = isDevelopment 
+      ? 'http://localhost:8000' 
+      : 'https://activeglow.onrender.com';
 
   // ── Brand palette ──────────────────────────────────────────────────────────
   static const Color brandGreen      = Color(0xFF2ECC8A);   // Primary green

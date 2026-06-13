@@ -92,12 +92,14 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   // ── Messaging ──────────────────────────────────────────────────────────────
 
   Future<void> _handleSend(String userText) async {
+    if (userText.trim().isEmpty) return;
+
     // Add user bubble to UI immediately
     setState(() {
       _messages.add(MessageModel(
-        id:        const Uuid().v4(),
-        text:      userText,
-        role:      MessageRole.user,
+        id:         const Uuid().v4(),
+        text:       userText,
+        role:       MessageRole.user,
         timestamp: DateTime.now(),
       ));
       _isTyping = true;
@@ -110,9 +112,10 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
         message:   userText,
       );
       _addBotMessage(reply);
-    } on ChatApiException catch (e) {
+    } catch (e) {
+      // Catch-all block handles network exceptions, JSON formats, or server drops
       _addBotMessage(
-        '⚠️ I had trouble connecting. Please try again.\n\n*Error: $e*',
+        '⚠️ I had trouble connecting to Skye. Please try again.\n\n*Details: $e*',
       );
     } finally {
       setState(() => _isTyping = false);
@@ -122,9 +125,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   void _addBotMessage(String text) {
     setState(() {
       _messages.add(MessageModel(
-        id:        const Uuid().v4(),
-        text:      text,
-        role:      MessageRole.bot,
+        id:         const Uuid().v4(),
+        text:       text,
+        role:       MessageRole.bot,
         timestamp: DateTime.now(),
       ));
     });

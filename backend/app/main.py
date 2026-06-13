@@ -64,10 +64,14 @@ app = FastAPI(
 )
 
 # ─── CORS ─────────────────────────────────────────────────────────────────────
-# Allow Flutter Web, mobile apps, and local development to connect freely.
+# Fixed CORS block to allow Vercel and secure credentials
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS, 
+    allow_origins=[
+        "https://active-glow.vercel.app",  # Your exact live Vercel domain
+        "http://localhost:8000",           # Local testing
+    ],
+    allow_origin_regex=r"https://.*",      # Allows any secure HTTPS frontend (like Vercel preview links)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
